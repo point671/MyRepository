@@ -93,6 +93,7 @@ if __name__ == "__main__":
         reader = myCsvReader(f_obj)
         print(reader[3])
         """
+        ыва
         '''Через обычный цикл'''
         for line in reader:
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
