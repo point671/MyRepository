@@ -25,6 +25,14 @@ class myCsvReader:
         self.index = self.index + 1 #Иначе прибовляем еденицу к счётчику
         return self.ff[self.index] #Возращаем элемент листа ff с текущим значением счётчика
 
+    def __getitem__(self, key):
+        self.cur_list = csv.DictReader(self.File_obj, delimiter=',')
+        self.listIndex = []
+        for line in self.cur_list:
+            self.listIndex.append(line)
+        self.File_obj.seek(0)
+        return self.listIndex[key]
+
     def csv_dict_reader_number(self):
         reader = csv.DictReader(self.File_obj, delimiter=',')
         self.File_obj.seek(0)  # Создание словоря через DictReader(файл, разделитель)
@@ -49,14 +57,14 @@ class myCsvReader:
             if line["Group"] == Crit:  # Если поле группы равно введённой группе то выводим всю строку
                 print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                     line["Group"])
-            '''  
+
     def csv_dict_reader_stringITERATOR(self):
         reader = csv.DictReader(self.File_obj, delimiter=',')
         self.File_obj.seek(0)  # Создание словоря через DictReader(файл, разделитель)
         for line in reader:
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])  # вывод по ключу
-            '''
+
 
 class csv_dict_writer(myCsvReader):
     def csv_dict_writer(self):
@@ -80,16 +88,25 @@ if __name__ == "__main__":
     '''Открытие файла и передача в функции их объектов:'''
 
     with open("data.csv") as f_obj:
+
+
         reader = myCsvReader(f_obj)
-        '''
+        print(reader[3])
+        """
+        '''Через обычный цикл'''
         for line in reader:
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])
+        """
+
+
+        '''Через итератор'''
+        print("По строкам через итератор")
+        for i in reader:
+            print(i)
+
+
         '''
-        print("Привет")
-        print("hello2")
-        print("hello")
-        print("Hello")
         print("По строкам:")
         reader.csv_dict_reader_string()
         print("По номеру:")
@@ -100,5 +117,8 @@ if __name__ == "__main__":
         with open("data.csv") as f_obj:
             WriteReader = csv_dict_writer(f_obj)
         WriteReader.csv_dict_writer()
-
-
+        
+        with open("data.csv") as f_obj:
+            strProhod = myCsvReader(f_obj)
+        strProhod.csv_dict_reader_stringITERATOR()
+'''
