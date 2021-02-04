@@ -86,6 +86,7 @@ if __name__ == "__main__":
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])
         '''
+        print("Привет")
         print("hello2")
         print("hello")
         print("Hello")
@@ -100,5 +101,4 @@ if __name__ == "__main__":
             WriteReader = csv_dict_writer(f_obj)
         WriteReader.csv_dict_writer()
 
-        \
 
