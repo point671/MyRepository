@@ -86,6 +86,7 @@ if __name__ == "__main__":
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])
         '''
+        print("hello2")
         print("hello")
         print("Hello")
         print("По строкам:")
