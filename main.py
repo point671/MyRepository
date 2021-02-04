@@ -86,6 +86,7 @@ if __name__ == "__main__":
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])
         '''
+        print("hello")
         print("Hello")
         print("По строкам:")
         reader.csv_dict_reader_string()
@@ -97,4 +98,6 @@ if __name__ == "__main__":
         with open("data.csv") as f_obj:
             WriteReader = csv_dict_writer(f_obj)
         WriteReader.csv_dict_writer()
+
+        \
 
