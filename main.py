@@ -6,9 +6,10 @@ import path as path
 
 
 class myCsvReader:
-    def __init__(self, file_obj):  # принимает объект файла csv
-        self.File_obj = file_obj  # Присваивает новой переменной File_obj этот объект
 
+    def __init__(self, file_obj,NameTable):  # принимает объект файла csv
+        self.File_obj = file_obj  # Присваивает новой переменной File_obj этот объект
+        self.NameTable = NameTable
     def __iter__(self):
         self.cur_list = csv.DictReader(self.File_obj, delimiter=',')  # создание списка из объекта File_obj
         self.index = -1 #Счётчик
@@ -32,6 +33,13 @@ class myCsvReader:
             self.listIndex.append(line)
         self.File_obj.seek(0)
         return self.listIndex[key]
+
+    def __repr__(self):
+        return f"Имя таблицы - ('{self.NameTable}')"
+
+    '''Реализация __setattr__'''
+    def __setattr__(self, name, value):#name :  Имя атрибута, которому присваивается значение. value : Значение, которое должно быть присвоено атрибуту.
+        self.__dict__[name] = value
 
     def csv_dict_reader_number(self):
         reader = csv.DictReader(self.File_obj, delimiter=',')
@@ -66,6 +74,7 @@ class myCsvReader:
                 line["Group"])  # вывод по ключу
 
 
+
 class csv_dict_writer(myCsvReader):
     def csv_dict_writer(self):
         print("Введите данные:")
@@ -90,7 +99,8 @@ if __name__ == "__main__":
     with open("data.csv") as f_obj:
 
 
-        reader = myCsvReader(f_obj)
+        reader = myCsvReader(f_obj,"Table")
+
         print(reader[3])
         """
         ыва
@@ -106,7 +116,10 @@ if __name__ == "__main__":
         for i in reader:
             print(i)
 
+        print(repr(reader))
 
+        reader = 1 # Реализация __setattr__
+        print(reader)
         '''
         print("По строкам:")
         reader.csv_dict_reader_string()
