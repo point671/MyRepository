@@ -7,12 +7,13 @@ import path as path
 
 class myCsvReader:
 
-    def __init__(self, file_obj,NameTable):  # принимает объект файла csv
+    def __init__(self, file_obj, NameTable):  # принимает объект файла csv
         self.File_obj = file_obj  # Присваивает новой переменной File_obj этот объект
         self.NameTable = NameTable
+
     def __iter__(self):
         self.cur_list = csv.DictReader(self.File_obj, delimiter=',')  # создание списка из объекта File_obj
-        self.index = -1 #Счётчик
+        self.index = -1  # Счётчик
         self.ff = []
         '''заполнить список ff значениями из списка cur_list '''
         for line in self.cur_list:
@@ -21,10 +22,10 @@ class myCsvReader:
         return self
 
     def __next__(self):
-        if (self.index + 1) >= len(self.ff): #Как только счётчик больше или равен длине листа ff
-            raise StopIteration # Прерываем итерацию
-        self.index = self.index + 1 #Иначе прибовляем еденицу к счётчику
-        return self.ff[self.index] #Возращаем элемент листа ff с текущим значением счётчика
+        if (self.index + 1) >= len(self.ff):  # Как только счётчик больше или равен длине листа ff
+            raise StopIteration  # Прерываем итерацию
+        self.index = self.index + 1  # Иначе прибовляем еденицу к счётчику
+        return self.ff[self.index]  # Возращаем элемент листа ff с текущим значением счётчика
 
     def __getitem__(self, key):
         self.cur_list = csv.DictReader(self.File_obj, delimiter=',')
@@ -38,7 +39,9 @@ class myCsvReader:
         return f"Имя таблицы - ('{self.NameTable}')"
 
     '''Реализация __setattr__'''
-    def __setattr__(self, name, value):#name :  Имя атрибута, которому присваивается значение. value : Значение, которое должно быть присвоено атрибуту.
+
+    def __setattr__(self, name,
+                    value):  # name :  Имя атрибута, которому присваивается значение. value : Значение, которое должно быть присвоено атрибуту.
         self.__dict__[name] = value
 
     def csv_dict_reader_number(self):
@@ -73,6 +76,12 @@ class myCsvReader:
             print(line["Number"], end=' '), print(line["FIO"], end=' '), print(line["Email"], end=' '), print(
                 line["Group"])  # вывод по ключу
 
+    '''генератор'''
+
+    def generated_str(self, N):
+        while N < 3:
+            yield self.cur_list[N]
+            N -= 1
 
 
 class csv_dict_writer(myCsvReader):
@@ -98,8 +107,7 @@ if __name__ == "__main__":
 
     with open("data.csv") as f_obj:
 
-
-        reader = myCsvReader(f_obj,"Table")
+        reader = myCsvReader(f_obj, "Table")
 
         print(reader[3])
         """
@@ -110,7 +118,6 @@ if __name__ == "__main__":
                 line["Group"])
         """
 
-
         '''Через итератор'''
         print("По строкам через итератор")
         for i in reader:
@@ -118,8 +125,11 @@ if __name__ == "__main__":
 
         print(repr(reader))
 
-        reader = 1 # Реализация __setattr__
+        reader = 1  # Реализация __setattr__
         print(reader)
+
+        s = myCsvReader.generated_str(myCsvReader,2)
+        print(next(s))
         '''
         print("По строкам:")
         reader.csv_dict_reader_string()
